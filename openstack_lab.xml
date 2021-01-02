@@ -749,6 +749,33 @@ Copyright (C) 2020 Departamento de Ingenieria de Sistemas Telematicos (DIT)
 
     </exec>
 
+    <!-- 
+         CREATE FINAL SCENARIO
+    -->
+    <exec seq="create-final-scenario" type="verbatim">
+        source /root/bin/admin-openrc.sh
+
+        # Create security group rules to allow ICMP, SSH and WWW access
+        admin_project_id=$(openstack project show admin -c id -f value)
+        default_secgroup_id=$(openstack security group list -f value | grep default | grep $admin_project_id | cut -d " " -f1)
+        openstack security group rule create --proto icmp --dst-port 0  $default_secgroup_id
+        openstack security group rule create --proto tcp  --dst-port 80 $default_secgroup_id
+        openstack security group rule create --proto tcp  --dst-port 22 $default_secgroup_id
+
+        # Create internal network
+        openstack network create net1
+        openstack subnet create --network net1 --gateway 10.1.1.1 --dns-nameserver 8.8.8.8 --subnet-range 10.1.1.0/24 --allocation-pool start=10.1.1.2,end=10.1.1.20 subnet1
+
+        # Create external network
+        #openstack network create --share --external --provider-physical-network provider --provider-network-type flat ExtNet
+        #openstack subnet create --network ExtNet --gateway 10.0.10.1 --dns-nameserver 10.0.10.1 --subnet-range 10.0.10.0/24 --allocation-pool start=10.0.10.100,end=10.0.10.200 ExtSubNet
+
+        openstack router create r1
+        openstack router set r1 --external-gateway ExtNet
+        openstack router add subnet r1 subnet1
+
+    </exec>
+
     <exec seq="create-scenario-p81" type="verbatim">
     	# CREATE DEMO SCENARIO
     	source /root/bin/admin-openrc.sh

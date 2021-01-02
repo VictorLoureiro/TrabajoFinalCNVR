@@ -4,3 +4,17 @@
 - Alejandro Vargas Perez
 - Victor Loureiro Sancho
 ------------
+
+## PASOS
+- Clonamos el repositorio:
+	 ```sh
+	  git clone https://github.com/VictorLoureiro/TrabajoFinalCNVR
+	```
+- Ejecutamos el script de creación del escenario:
+	 ```sh
+	  cd TrabajoFinalCNVR
+	  chmod 755 createScenario.sh
+	  ./createScenario.sh
+	```
+
+  ------------
