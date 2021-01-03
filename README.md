@@ -16,5 +16,11 @@
 	  chmod 755 createScenario.sh
 	  ./createScenario.sh
 	```
+- Para borrar este escenario, ejecutamos el siguiente script:
+	 ```sh
+	  cd TrabajoFinalCNVR
+	  chmod 755 deleteScenario.sh
+	  ./deleteScenario.sh
+	```
 
   ------------

@@ -11,9 +11,10 @@ VNX_DIR=~/../../mnt/tmp/openstack_lab-stein_4n_classic_ovs-v06
 cd /mnt/tmp/openstack_lab-stein_4n_classic_ovs-v06
 sudo vnx -f openstack_lab.xml --create
 sudo vnx -f openstack_lab.xml -x start-all,load-img
-vnx_config_nat ExtNet $EXT
+sudo vnx_config_nat ExtNet $EXT
 
 # Arrancamos el escenario
 cp $ABS_DIR/openstack_lab.xml $VNX_DIR
 cd $VNX_DIR
+
 sudo vnx -f openstack_lab.xml -x create-final-scenario
