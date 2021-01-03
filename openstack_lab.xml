@@ -753,7 +753,19 @@ Copyright (C) 2020 Departamento de Ingenieria de Sistemas Telematicos (DIT)
          CREATE FINAL SCENARIO
     -->
     <exec seq="create-final-scenario" type="verbatim">
-        source /root/bin/admin-openrc.sh
+        touch /root/bin/client-openrc.sh
+	vi /root/bin/client-openrc.sh ->
+	export OS_USERNAME=client
+	export OS_PASSWORD=xxxx
+	export OS_PROJECT_NAME=client
+	export OS_USER_DOMAIN_NAME=Default
+	export OS_PROJECT_DOMAIN_NAME=Default
+	export OS_AUTH_URL=http://controller:5000/v3
+	export OS_IDENTITY_API_VERSION=3
+	export OS_IMAGE_API_VERSION=2
+	#export OS_AUTH_TYPE=password
+
+	source /root/bin/client-openrc.sh
 
         # Create security group rules to allow ICMP, SSH and WWW access
         admin_project_id=$(openstack project show admin -c id -f value)

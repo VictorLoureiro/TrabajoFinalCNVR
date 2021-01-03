@@ -1,0 +1,14 @@
+heat_template_version: 2021-01-03
+
+description: Template to deploy all virtual machines of the final scenario
+
+resources:
+  s1:
+    type: OS::Nova::Server
+    properties:
+      name: s1
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
+      networks:
+       - network: net1, net2
+
