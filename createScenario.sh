@@ -18,3 +18,6 @@ cp $ABS_DIR/openstack_lab.xml $VNX_DIR
 cd $VNX_DIR
 
 sudo vnx -f openstack_lab.xml -x create-final-scenario
+
+# Crear nuevas imagenes con distintas configuraciones en funcion del servidor
+

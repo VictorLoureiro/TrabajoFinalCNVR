@@ -10,5 +10,42 @@ resources:
       image: xenial-server-cloudimg-amd64-vnx
       flavor: m1.smaller
       networks:
-       - network: net1, net2
-
+       - network: net1
+       - network: net2
+      user_data:
+  s2:
+    type: OS::Nova::Server
+    properties:
+      name: s2
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
+      networks:
+       - network: net1
+       - network: net2
+  s3:
+    type: OS::Nova::Server
+    properties:
+      name: s3
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
+      networks:
+       - network: net1
+       - network: net2
+  admin:
+    type: OS::Nova::Server
+    properties:
+      name: admin
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
+      networks:
+       - network: net1
+       - network: net2
+  lb:
+    type: OS::Nova::Server
+    properties:
+      name: lb
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
+      networks:
+       - network: net1
+       - network: net2
