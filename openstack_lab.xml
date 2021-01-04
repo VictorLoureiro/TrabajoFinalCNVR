@@ -753,22 +753,22 @@ Copyright (C) 2020 Departamento de Ingenieria de Sistemas Telematicos (DIT)
          CREATE FINAL SCENARIO
     -->
     <exec seq="create-final-scenario" type="verbatim">
-	#source /root/bin/admin-openrc.sh
-	#openstack user create --project cnvr --password cnvr client
-
-        #touch /root/bin/client-openrc.sh
-	#echo "export OS_USERNAME=client" > /root/bin/client-openrc.sh
-	#echo "export OS_PASSWORD=cnvr" >> /root/bin/client-openrc.sh
-	#echo "export OS_PROJECT_NAME=cnvr" >> /root/bin/client-openrc.sh
-	#echo "export OS_USER_DOMAIN_NAME=Default" >> /root/bin/client-openrc.sh
-	#echo "export OS_PROJECT_DOMAIN_NAME=Default" >> /root/bin/client-openrc.sh
-	#echo "export OS_AUTH_URL=http://controller:5000/v3" >> /root/bin/client-openrc.sh
-	#echo "export OS_IDENTITY_API_VERSION=3" >> /root/bin/client-openrc.sh
-	#echo "export OS_IMAGE_API_VERSION=2" >> /root/bin/client-openrc.sh
-	#echo "#export OS_AUTH_TYPE=password" >> /root/bin/client-openrc.sh
-
-
 	source /root/bin/admin-openrc.sh
+	openstack user create --project admin --password cnvr client
+	openstack role add --user client --project admin user
+
+        touch /root/bin/client-openrc.sh
+	echo "export OS_USERNAME=client" > /root/bin/client-openrc.sh
+	echo "export OS_PASSWORD=cnvr" >> /root/bin/client-openrc.sh
+	echo "export OS_PROJECT_NAME=admin" >> /root/bin/client-openrc.sh
+	echo "export OS_USER_DOMAIN_NAME=Default" >> /root/bin/client-openrc.sh
+	echo "export OS_PROJECT_DOMAIN_NAME=Default" >> /root/bin/client-openrc.sh
+	echo "export OS_AUTH_URL=http://controller:5000/v3" >> /root/bin/client-openrc.sh
+	echo "export OS_IDENTITY_API_VERSION=3" >> /root/bin/client-openrc.sh
+	echo "export OS_IMAGE_API_VERSION=2" >> /root/bin/client-openrc.sh
+	echo "#export OS_AUTH_TYPE=password" >> /root/bin/client-openrc.sh
+
+	source /root/bin/client-openrc.sh
 
         # Create security group rules to allow ICMP, SSH and WWW access
         admin_project_id=$(openstack project show admin -c id -f value)
