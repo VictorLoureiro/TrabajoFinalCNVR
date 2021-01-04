@@ -49,3 +49,25 @@ resources:
       networks:
        - network: net1
        - network: net2
+  bbdd:
+    type: OS::Nova::Server
+    properties:
+      name: bbdd
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
+      user_data_format: RAW
+      user_data: |
+	#cloud-config
+	affaf
+
+	
+      networks:
+       - network: net2
+  files:
+    type: OS::Nova::Server
+    properties:
+      name: files
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
+      networks:
+       - network: net2
