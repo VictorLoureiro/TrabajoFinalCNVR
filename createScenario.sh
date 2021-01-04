@@ -22,3 +22,10 @@ sudo vnx -f openstack_lab.xml -x create-final-scenario
 
 # Crear nuevas imagenes con distintas configuraciones en funcion del servidor
 
+
+# Configurar el LBaaS y el FWaas
+# Primero hay que entrar automáticamente en network
+#slogin network
+# Despues se configuran los ficheros neutron.conf y fwaas_driver.ini de neutron del Network
+cd /etc/neutron/
+awk '/service_plugins = / {$3="router,lbaasv2,firewall_v2"}{print}' neutron.conf > tmp.conf && mv tmp.conf neutron.conf
