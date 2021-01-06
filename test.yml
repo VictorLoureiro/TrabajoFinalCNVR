@@ -13,15 +13,11 @@ resources:
       user_data: |
         #cloud-config
         runcmd:
-         - sudo apt-key adv –keyserver hkp://keyserver.ubuntu.com:80 –recv 7F0CEB10
-         - echo &amp;quot;deb http://repo.mongodb.org/apt/ubuntu &amp;quot;$(lsb_release -sc)&amp;quot;/mongodb-org/3.0 multiverse&amp;quot; | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
-         - sudo apt-get update
-         - sudo apt-get install -y mongodb-org
-         - sudo service mongodb stop
-         - sudo mkdir /mongodb/data
-         - sudo chown -R mongodb:mongodb /mongodb/data
-         - sudo sed -i ‘s/dbpath=/var/lib/mongodb/dbpath=/mongodb/data/g’ /etc/mongodb.conf
-         - sudo service mongodb start
+          - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+          - echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+          - apt-get update
+          - apt-get install -y mongodb-org
+          - service mongod start
       networks:
        - network: net1
        - network: net2
