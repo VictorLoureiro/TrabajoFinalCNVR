@@ -1,0 +1,27 @@
+heat_template_version: 2018-08-31
+
+description: Template to deploy all virtual machines of the final scenario
+
+resources:
+  bbdd:
+    type: OS::Nova::Server
+    properties:
+      name: bbdd
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        runcmd:
+         - sudo apt-key adv –keyserver hkp://keyserver.ubuntu.com:80 –recv 7F0CEB10
+         - echo &amp;quot;deb http://repo.mongodb.org/apt/ubuntu &amp;quot;$(lsb_release -sc)&amp;quot;/mongodb-org/3.0 multiverse&amp;quot; | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+         - sudo apt-get update
+         - sudo apt-get install -y mongodb-org
+         - sudo service mongodb stop
+         - sudo mkdir /mongodb/data
+         - sudo chown -R mongodb:mongodb /mongodb/data
+         - sudo sed -i ‘s/dbpath=/var/lib/mongodb/dbpath=/mongodb/data/g’ /etc/mongodb.conf
+         - sudo service mongodb start
+      networks:
+       - network: net1
+       - network: net2

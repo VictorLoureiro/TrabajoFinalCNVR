@@ -792,6 +792,9 @@ Copyright (C) 2020 Departamento de Ingenieria de Sistemas Telematicos (DIT)
         openstack router set r1 --external-gateway ExtNet
         openstack router add subnet r1 subnet1
 
+	# Launch Heat Template
+	#openstack stack create -t vm_final_scenario.yml
+
     </exec>
 
     <exec seq="delete-final-scenario" type="verbatim">
