@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Obtenemos la interfaz externa para configurar a ExtNet
-EXT=`ip -o link show | awk '{print $2}' | tr -d ':' | grep en`
+EXT=`ip -4 a | awk '{print $2}' | tr -d ':' | grep en`
 
 # Obtenemos la ruta absoluta del proyecto
 ABS_DIR=`pwd`
