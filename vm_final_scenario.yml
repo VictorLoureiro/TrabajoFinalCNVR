@@ -48,7 +48,6 @@ resources:
       flavor: m1.smaller
       networks:
        - network: net1
-       - network: net2
   bbdd:
     type: OS::Nova::Server
     properties:
