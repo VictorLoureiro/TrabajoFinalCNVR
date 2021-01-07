@@ -1,4 +1,4 @@
-heat_template_version: 2021-01-03
+heat_template_version: 2018-08-31
 
 description: Template to deploy all virtual machines of the final scenario
 
@@ -58,23 +58,12 @@ resources:
       user_data_format: RAW
       user_data: |
         #cloud-config
-        # Update apt database on first boot
-        apt_update: true
-        # Upgrade the instance on first boot
-        apt_upgrade: true
-        # Add 10gen MongoDB repo
-        apt_sources:
-         - source: "deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen"
-           keyid: 7F0CEB10
-           filename: 10gen.list
-        # Install packages
-        packages:
-         - mongodb-10gen
-         - ntp
         runcmd:
-         - [ sed, -i, "s/# replSet = setname/replSet = twitterdata/g", /etc/mongodb.conf ]
-         - [ restart, mongodb ]
-
+          - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+          - echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+          - apt-get update
+          - apt-get install -y mongodb-org
+          - service mongod start
       networks:
        - network: net2
   files:
