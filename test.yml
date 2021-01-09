@@ -3,65 +3,9 @@ heat_template_version: 2018-08-31
 description: Template to deploy all virtual machines of the final scenario
 
 #
-# Common parameter definitions:
-#
-parameters:
-
-  my_network:
-    type: string
-    description: Neutron Network
-    default: "internal"
-    constraints:
-      - custom_constraint: neutron.network
-
-  my_subnet:
-
-    type: string
-    description: Neutron SUB-Network
-    default: "internal-pool"
-
-  app_port:
-    type: string
-    description: Aplication TCP Port
-    default: "80"
-
-resources:
-#
-# Our LBaaS V2 Health Monitor.
-#
-  monitor:
-    type: OS::Neutron::LBaaS::HealthMonitor
-    properties:
-      delay: 5
-      type: HTTP
-      timeout: 5
-      max_retries: 3
-      pool: { get_resource: pool }
-
-#
-# Our LBaaS V2 Pool
-#
-  pool:
-    type: OS::Neutron::LBaaS::Pool
-    properties:
-      lb_algorithm: ROUND_ROBIN
-      protocol: HTTP
-      listener: { get_resource: listener }
-
-#
-# Our LBaaS V2 Listener
-#
-  listener:
-    type: OS::Neutron::LBaaS::Listener
-    properties:
-      loadbalancer: { get_resource: lb }
-      protocol: HTTP
-      protocol_port: { get_param: app_port }
-
-#
 # Our LBaaS V2 "Load Balancer"
 #
   lb:
     type: OS::Neutron::LBaaS::LoadBalancer
     properties:
-      vip_subnet: { get_param: my_subnet }
+      vip_subnet: subnet1

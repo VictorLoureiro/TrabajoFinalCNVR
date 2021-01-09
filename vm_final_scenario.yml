@@ -2,6 +2,21 @@ heat_template_version: 2018-08-31
 
 description: Template to deploy all virtual machines of the final scenario
 
+parameters:
+
+  subnet1:
+    type: OS::Neutron::Subnet
+    properties:
+     name: subnet1
+     network: net1
+     cidr: 10.1.1.0/24
+  subnet2:
+    type: OS::Neutron::Subnet
+    properties:
+     name: subnet2
+     network: net2
+     cidr: 10.1.2.0/24
+
 resources:
   s1:
     type: OS::Nova::Server
@@ -13,6 +28,7 @@ resources:
        - network: net1
        - network: net2
       user_data:
+
   s2:
     type: OS::Nova::Server
     properties:
@@ -22,6 +38,7 @@ resources:
       networks:
        - network: net1
        - network: net2
+
   s3:
     type: OS::Nova::Server
     properties:
@@ -31,6 +48,7 @@ resources:
       networks:
        - network: net1
        - network: net2
+
   admin:
     type: OS::Nova::Server
     properties:
@@ -41,13 +59,11 @@ resources:
        - network: net1
        - network: net2
   lb:
-    type: OS::Nova::Server
+    type: OS::Neutron::LBaaS::LoadBalancer
     properties:
-      name: lb
-      image: xenial-server-cloudimg-amd64-vnx
-      flavor: m1.smaller
-      networks:
-       - network: net1
+     name: LB
+     vip_subnet: subnet1
+
   bbdd:
     type: OS::Nova::Server
     properties:
