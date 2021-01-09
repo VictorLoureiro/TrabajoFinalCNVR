@@ -5,6 +5,7 @@ description: Template to deploy all virtual machines of the final scenario
 #
 # Our LBaaS V2 "Load Balancer"
 #
+resources:
   lb:
     type: OS::Neutron::LBaaS::LoadBalancer
     properties:

@@ -2,21 +2,6 @@ heat_template_version: 2018-08-31
 
 description: Template to deploy all virtual machines of the final scenario
 
-parameters:
-
-  subnet1:
-    type: OS::Neutron::Subnet
-    properties:
-     name: subnet1
-     network: net1
-     cidr: 10.1.1.0/24
-  subnet2:
-    type: OS::Neutron::Subnet
-    properties:
-     name: subnet2
-     network: net2
-     cidr: 10.1.2.0/24
-
 resources:
   s1:
     type: OS::Nova::Server
