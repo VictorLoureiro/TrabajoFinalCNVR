@@ -14,13 +14,17 @@ sudo vnx -f openstack_lab.xml --create
 sudo vnx -f openstack_lab.xml -x start-all,load-img
 sudo vnx_config_nat ExtNet $EXT
 
+# Creamos nuevas imagenes con distintas configuraciones en funcion del servidor
+# Xenial image with mongo
+source admin-openrc.sh
+openstack image create --public --disk-format qcow2 --container-format bare --file BBDD-mongo mongo-BBDD
+
 # Arrancamos el escenario
 cp $ABS_DIR/openstack_lab.xml $VNX_DIR
 cd $VNX_DIR
 
 sudo vnx -f openstack_lab.xml -x create-final-scenario
 
-# Crear nuevas imagenes con distintas configuraciones en funcion del servidor
 
 
 # Configurar el LBaaS y el FWaas

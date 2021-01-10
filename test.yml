@@ -2,11 +2,20 @@ heat_template_version: 2018-08-31
 
 description: Template to deploy all virtual machines of the final scenario
 
-#
-# Our LBaaS V2 "Load Balancer"
-#
 resources:
-  lb:
-    type: OS::Neutron::LBaaS::LoadBalancer
+  bbdd:
+    type: OS::Nova::Server
     properties:
-      vip_subnet: subnet1
+      name: bbdd
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        runcmd:
+          - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
+          - echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+          - apt-get update
+          - apt-get install -y mongodb-org
+      networks:
+       - network: net2

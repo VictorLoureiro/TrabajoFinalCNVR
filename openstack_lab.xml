@@ -793,7 +793,7 @@ Copyright (C) 2020 Departamento de Ingenieria de Sistemas Telematicos (DIT)
         openstack router add subnet r1 subnet1
 
 	# Launch Heat Template
-	openstack stack create -t test.yml
+	#openstack stack create -t test.yml
 
     </exec>
 
