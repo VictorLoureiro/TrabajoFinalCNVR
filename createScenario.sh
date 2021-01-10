@@ -33,3 +33,7 @@ sudo vnx -f openstack_lab.xml -x create-final-scenario
 # Despues se configuran los ficheros neutron.conf y fwaas_driver.ini de neutron del Network
 #cd /etc/neutron/
 #awk '/service_plugins = / {$3="router,lbaasv2,firewall_v2"}{print}' neutron.conf > tmp.conf && mv tmp.conf neutron.conf
+#awk '/service_plugins = / {print $1, $2, $3}' neutron.conf
+#awk '/#service_provider / {$1="service_provider"}{print}' neutron_fwaas.conf > tmp.conf && mv tmp.conf neutron_fwaas.conf
+#awk '/service_provider / {$2="= FIREWALL:Iptables:neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver:default"}{print}' neutron_fwaas.conf > tmp.conf && mv tmp.conf neutron_fwaas.conf
+#awk '/service_provider = / {print $1, $2, $3}' neutron_fwaas.conf
