@@ -3,19 +3,124 @@ heat_template_version: 2018-08-31
 description: Template to deploy all virtual machines of the final scenario
 
 resources:
+#
+# Network resources definition
+#
+  net1:
+    type: OS::Neutron::Net
+    properties:
+      name: net1
+  net2:
+    type: OS::Neutron::Net
+    properties:
+      name: net2
+  subnet1:
+    type: OS::Neutron::Subnet
+    properties:
+     name: subnet1
+     allocation_pools: [{"start": 10.1.1.2, "end": 10.1.1.20}]
+     gateway_ip: 10.1.1.1
+     network_id: {get_resource: net1}
+     cidr: 10.1.1.0/24
+  subnet2:
+    type: OS::Neutron::Subnet
+    properties:
+     name: subnet2
+     allocation_pools: [{"start": 10.1.2.2, "end": 10.1.2.20}]
+     gateway_ip: 10.1.2.1
+     network_id: {get_resource: net2}
+     cidr: 10.1.2.0/24
+  gw_port:
+    type: OS::Neutron::Port
+    properties:
+      network: net1
+  router:
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info: { network: ExtNet}
+  router_interface1:
+    depends_on: router
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: {get_resource: router}
+      port_id: {get_resource: gw_port}
+
+#
+# Web app servers definition
+#
+  s1:
+    type: OS::Nova::Server
+    properties:
+      name: s1
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
+      networks:
+       - network: net1
+       - network: net2
+
+  s2:
+    type: OS::Nova::Server
+    properties:
+      name: s2
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
+      networks:
+       - network: net1
+       - network: net2
+
+  s3:
+    type: OS::Nova::Server
+    properties:
+      name: s3
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
+      networks:
+       - network: net1
+       - network: net2
+
+#
+# Admin server definition
+#
+  admin:
+    type: OS::Nova::Server
+    properties:
+      name: admin
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
+      networks:
+       - network: net1
+       - network: net2
+
+#
+# Load Balancer definition
+#
+  lb:
+    type: OS::Neutron::LBaaS::LoadBalancer
+    properties:
+     name: LB
+     vip_subnet: {get_resource: subnet1}
+
+
+#
+# Mongo DB Server
+#
   bbdd:
     type: OS::Nova::Server
     properties:
       name: bbdd
       image: xenial-server-cloudimg-amd64-vnx
       flavor: m1.smaller
-      user_data_format: RAW
-      user_data: |
-        #cloud-config
-        runcmd:
-          - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
-          - echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
-          - apt-get update
-          - apt-get install -y mongodb-org
+      networks:
+       - network: net2
+
+#
+# Files server definition
+#
+  files:
+    type: OS::Nova::Server
+    properties:
+      name: files
+      image: xenial-server-cloudimg-amd64-vnx
+      flavor: m1.smaller
       networks:
        - network: net2
