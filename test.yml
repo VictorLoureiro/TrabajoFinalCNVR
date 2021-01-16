@@ -10,41 +10,39 @@ resources:
     type: OS::Neutron::Net
     properties:
       name: net1
-  net2:
-    type: OS::Neutron::Net
-    properties:
-      name: net2
   subnet1:
     type: OS::Neutron::Subnet
     properties:
      name: subnet1
+     network_id: {get_resource: net1}
      allocation_pools: [{"start": 10.1.1.2, "end": 10.1.1.20}]
      gateway_ip: 10.1.1.1
-     network_id: {get_resource: net1}
      cidr: 10.1.1.0/24
+  net2:
+    type: OS::Neutron::Net
+    properties:
+      name: net2
   subnet2:
     type: OS::Neutron::Subnet
     properties:
      name: subnet2
+     network_id: {get_resource: net2}
      allocation_pools: [{"start": 10.1.2.2, "end": 10.1.2.20}]
      gateway_ip: 10.1.2.1
-     network_id: {get_resource: net2}
      cidr: 10.1.2.0/24
-  gw_port:
+  gw_port1:
     type: OS::Neutron::Port
     properties:
-      network: net1
+      network: {get_resource: net1}
   router:
     type: OS::Neutron::Router
     properties:
       external_gateway_info: { network: ExtNet}
-  router_interface1:
-    depends_on: router
+  router_if1:
     type: OS::Neutron::RouterInterface
     properties:
-      router_id: {get_resource: router}
-      port_id: {get_resource: gw_port}
-
+      router_id: { get_resource: router }
+      port_id: { get_resource: gw_port1 }
 #
 # Web app servers definition
 #
@@ -55,8 +53,8 @@ resources:
       image: xenial-server-cloudimg-amd64-vnx
       flavor: m1.smaller
       networks:
-       - network: net1
-       - network: net2
+       - network: {get_resource: net1}
+       - network: {get_resource: net2}
 
   s2:
     type: OS::Nova::Server
@@ -65,8 +63,8 @@ resources:
       image: xenial-server-cloudimg-amd64-vnx
       flavor: m1.smaller
       networks:
-       - network: net1
-       - network: net2
+       - network: {get_resource: net1}
+       - network: {get_resource: net2}
 
   s3:
     type: OS::Nova::Server
@@ -75,8 +73,8 @@ resources:
       image: xenial-server-cloudimg-amd64-vnx
       flavor: m1.smaller
       networks:
-       - network: net1
-       - network: net2
+       - network: {get_resource: net1}
+       - network: {get_resource: net2}
 
 #
 # Admin server definition
@@ -88,8 +86,8 @@ resources:
       image: xenial-server-cloudimg-amd64-vnx
       flavor: m1.smaller
       networks:
-       - network: net1
-       - network: net2
+       - network: {get_resource: net1}
+       - network: {get_resource: net2}
 
 #
 # Load Balancer definition
@@ -99,28 +97,3 @@ resources:
     properties:
      name: LB
      vip_subnet: {get_resource: subnet1}
-
-
-#
-# Mongo DB Server
-#
-  bbdd:
-    type: OS::Nova::Server
-    properties:
-      name: bbdd
-      image: xenial-server-cloudimg-amd64-vnx
-      flavor: m1.smaller
-      networks:
-       - network: net2
-
-#
-# Files server definition
-#
-  files:
-    type: OS::Nova::Server
-    properties:
-      name: files
-      image: xenial-server-cloudimg-amd64-vnx
-      flavor: m1.smaller
-      networks:
-       - network: net2

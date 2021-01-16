@@ -778,19 +778,19 @@ Copyright (C) 2020 Departamento de Ingenieria de Sistemas Telematicos (DIT)
         openstack security group rule create --proto tcp  --dst-port 22 $default_secgroup_id
 
         # Create internal network
-        openstack network create net1
-        openstack subnet create --network net1 --gateway 10.1.1.1 --dns-nameserver 8.8.8.8 --subnet-range 10.1.1.0/24 --allocation-pool start=10.1.1.2,end=10.1.1.20 subnet1
+        #openstack network create net1
+        #openstack subnet create --network net1 --gateway 10.1.1.1 --dns-nameserver 8.8.8.8 --subnet-range 10.1.1.0/24 --allocation-pool start=10.1.1.2,end=10.1.1.20 subnet1
 
-	openstack network create net2
-    	openstack subnet create --network net2 --gateway 10.1.2.1 --dns-nameserver 8.8.8.8 --subnet-range 10.1.2.0/24 --allocation-pool start=10.1.2.2,end=10.1.2.20 subnet2
+	#openstack network create net2
+    	#openstack subnet create --network net2 --gateway 10.1.2.1 --dns-nameserver 8.8.8.8 --subnet-range 10.1.2.0/24 --allocation-pool start=10.1.2.2,end=10.1.2.20 subnet2
 
         # Create external network
-        openstack network create --share --external --provider-physical-network provider --provider-network-type flat ExtNet
-        openstack subnet create --network ExtNet --gateway 10.0.10.1 --dns-nameserver 10.0.10.1 --subnet-range 10.0.10.0/24 --allocation-pool start=10.0.10.100,end=10.0.10.200 ExtSubNet
+        #openstack network create --share --external --provider-physical-network provider --provider-network-type flat ExtNet
+        #openstack subnet create --network ExtNet --gateway 10.0.10.1 --dns-nameserver 10.0.10.1 --subnet-range 10.0.10.0/24 --allocation-pool start=10.0.10.100,end=10.0.10.200 ExtSubNet
 
-        openstack router create r1
-        openstack router set r1 --external-gateway ExtNet
-        openstack router add subnet r1 subnet1
+        #openstack router create r1
+        #openstack router set r1 --external-gateway ExtNet
+        #openstack router add subnet r1 subnet1
 
 	# Launch Heat Template
 	#openstack stack create -t test.yml
