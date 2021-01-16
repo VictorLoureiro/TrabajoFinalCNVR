@@ -97,3 +97,36 @@ resources:
     properties:
      name: LB
      vip_subnet: {get_resource: subnet1}
+
+#
+# Firewall, rules and policies
+#
+  fw:
+    type: OS::Neutron::Firewall
+    properties:
+      description: Firewall para filtrar el trafico exterior
+      firewall_policy_id: {get_resource: fw_policies}
+      name: Cortafuegos
+      value_specs: {...}
+  fw_policies:
+    type: OS::Neutron::FirewallPolicy
+    properties:
+      audited: Boolean
+      description: String
+      firewall_rules: [Value, Value, ...]
+      name: String
+      shared: Boolean
+  fw_rules:
+    type: OS::Neutron::FirewallRule
+    properties:
+      action: String
+      description: String
+      destination_ip_address: String
+      destination_port: String
+      enabled: Boolean
+      ip_version: String
+      name: String
+      protocol: String
+      shared: Boolean
+      source_ip_address: String
+      source_port: String
