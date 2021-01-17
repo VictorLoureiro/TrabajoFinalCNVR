@@ -722,11 +722,11 @@ Copyright (C) 2020 Departamento de Ingenieria de Sistemas Telematicos (DIT)
         source /root/bin/admin-openrc.sh
 
         # Create security group rules to allow ICMP, SSH and WWW access
-        #admin_project_id=$(openstack project show admin -c id -f value)
-        #default_secgroup_id=$(openstack security group list -f value | grep default | grep $admin_project_id | cut -d " " -f1)
-        #openstack security group rule create --proto icmp --dst-port 0  $default_secgroup_id
-        #openstack security group rule create --proto tcp  --dst-port 80 $default_secgroup_id
-        #openstack security group rule create --proto tcp  --dst-port 22 $default_secgroup_id
+        admin_project_id=$(openstack project show admin -c id -f value)
+        default_secgroup_id=$(openstack security group list -f value | grep default | grep $admin_project_id | cut -d " " -f1)
+        openstack security group rule create --proto icmp --dst-port 0  $default_secgroup_id
+        openstack security group rule create --proto tcp  --dst-port 80 $default_secgroup_id
+        openstack security group rule create --proto tcp  --dst-port 22 $default_secgroup_id
 
         # Create internal network
         openstack network create net0
@@ -771,11 +771,11 @@ Copyright (C) 2020 Departamento de Ingenieria de Sistemas Telematicos (DIT)
 	source /root/bin/client-openrc.sh
 
         # Create security group rules to allow ICMP, SSH and WWW access
-        admin_project_id=$(openstack project show admin -c id -f value)
-        default_secgroup_id=$(openstack security group list -f value | grep default | grep $admin_project_id | cut -d " " -f1)
-        openstack security group rule create --proto icmp --dst-port 0  $default_secgroup_id
-        openstack security group rule create --proto tcp  --dst-port 80 $default_secgroup_id
-        openstack security group rule create --proto tcp  --dst-port 22 $default_secgroup_id
+        #admin_project_id=$(openstack project show admin -c id -f value)
+        #default_secgroup_id=$(openstack security group list -f value | grep default | grep $admin_project_id | cut -d " " -f1)
+        #openstack security group rule create --proto icmp --dst-port 0  $default_secgroup_id
+        #openstack security group rule create --proto tcp  --dst-port 80 $default_secgroup_id
+        #openstack security group rule create --proto tcp  --dst-port 22 $default_secgroup_id
 
         # Create internal network
         #openstack network create net1
