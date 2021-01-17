@@ -1,8 +1,6 @@
 #!/bin/bash
 
 # Obtenemos la ruta absoluta del proyecto
-ABS_DIR=`pwd`
-VNX_DIR=~/../../mnt/tmp/openstack_lab-stein_4n_classic_ovs-v06
-
-cd $VNX_DIR
-sudo vnx -f openstack_lab.xml -x delete-final-scenario
+openstack stack delete stack_cnvr
+cd /mnt/tmp/openstack_lab-stein_4n_classic_ovs-v06/
+sudo vnx -f openstack_lab.xml --destroy
