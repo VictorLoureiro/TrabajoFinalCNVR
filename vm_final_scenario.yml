@@ -33,7 +33,6 @@ resources:
   router:
     type: OS::Neutron::Router
     properties:
-      name: "Firewall"
       external_gateway_info: {network: ExtNet}
   router_if1:
     type: OS::Neutron::RouterInterface
