@@ -39,6 +39,24 @@ resources:
     properties:
       router_id: { get_resource: router }
       subnet_id: { get_resource: subnet1}
+
+#
+# MongoDB Server
+#
+
+  bbdd:
+    type: OS::Nova::Server
+    properties:
+      name: bbdd
+      image: mongoVM
+      flavor: m1.smaller
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        runcmd:
+          - service mongod start
+      networks:
+       - network: net2
 #
 # Web app servers definition
 #
