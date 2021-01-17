@@ -15,8 +15,6 @@ resources:
     properties:
      name: subnet1
      network_id: {get_resource: net1}
-     allocation_pools: [{"start": 10.1.1.2, "end": 10.1.1.20}]
-     gateway_ip: 10.1.1.1
      cidr: 10.1.1.0/24
   net2:
     type: OS::Neutron::Net
@@ -27,8 +25,6 @@ resources:
     properties:
      name: subnet2
      network_id: {get_resource: net2}
-     allocation_pools: [{"start": 10.1.2.2, "end": 10.1.2.20}]
-     gateway_ip: 10.1.2.1
      cidr: 10.1.2.0/24
   gw_port1:
     type: OS::Neutron::Port
