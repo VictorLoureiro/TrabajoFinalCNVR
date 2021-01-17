@@ -3,9 +3,7 @@ heat_template_version: 2018-08-31
 description: Template to deploy all virtual machines of the final scenario
 
 resources:
-#
-# Network resources definition
-#
+  # Network resources definition
   net1:
     type: OS::Neutron::Net
     properties:
@@ -30,22 +28,17 @@ resources:
      allocation_pools: [{"start": 10.1.2.2, "end": 10.1.2.20}]
      gateway_ip: 10.1.2.1
      cidr: 10.1.2.0/24
-  gw_port1:
-    type: OS::Neutron::Port
-    properties:
-      network: {get_resource: net1}
   router:
     type: OS::Neutron::Router
     properties:
-      external_gateway_info: { network: ExtNet}
+      name: "Firewall"
+      external_gateway_info: {network: ExtNet}
   router_if1:
     type: OS::Neutron::RouterInterface
     properties:
       router_id: { get_resource: router }
-      port_id: { get_resource: gw_port1 }
-#
-# Web app servers definition
-#
+      subnet_id: { get_resource: subnet1}
+  # Web App Servers definition
   s1:
     type: OS::Nova::Server
     properties:
@@ -55,7 +48,6 @@ resources:
       networks:
        - network: {get_resource: net1}
        - network: {get_resource: net2}
-
   s2:
     type: OS::Nova::Server
     properties:
@@ -65,7 +57,6 @@ resources:
       networks:
        - network: {get_resource: net1}
        - network: {get_resource: net2}
-
   s3:
     type: OS::Nova::Server
     properties:
@@ -75,6 +66,7 @@ resources:
       networks:
        - network: {get_resource: net1}
        - network: {get_resource: net2}
+  # MongoDB Server
   bbdd:
     type: OS::Nova::Server
     properties:
@@ -88,9 +80,7 @@ resources:
           - service mongod start
       networks:
        - network: net2
-#
-# Admin server definition
-#
+  # Admin Server definition
   admin:
     type: OS::Nova::Server
     properties:
@@ -100,3 +90,33 @@ resources:
       networks:
        - network: {get_resource: net1}
        - network: {get_resource: net2}
+  # Firewall, rules and policies
+  fw:
+    type: OS::Neutron::Firewall
+    properties:
+      description: Firewall para filtrar el trafico exterior
+      firewall_policy_id: {get_resource: fw_policies}
+      name: Firewall
+      value_specs: {...}
+  fw_policies:
+    type: OS::Neutron::FirewallPolicy
+    properties:
+      audited: Boolean
+      description: String
+      firewall_rules: [Value, Value, ...]
+      name: String
+      shared: Boolean
+  fw_rules:
+    type: OS::Neutron::FirewallRule
+    properties:
+      action: String
+      description: String
+      destination_ip_address: String
+      destination_port: String
+      enabled: Boolean
+      ip_version: String
+      name: String
+      protocol: String
+      shared: Boolean
+      source_ip_address: String
+      source_port: String

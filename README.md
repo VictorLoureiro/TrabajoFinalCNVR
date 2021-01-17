@@ -16,6 +16,10 @@
 	  chmod 755 createScenario.sh
 	  ./createScenario.sh
 	```
+- Para configurar el escenario, ejecutamos el siguiente script:
+	 ```sh
+	  openstack stack create -t configure_scenario.yml stack_cnvr
+	```
 - Para borrar este escenario, ejecutamos el siguiente script:
 	 ```sh
 	  cd TrabajoFinalCNVR
