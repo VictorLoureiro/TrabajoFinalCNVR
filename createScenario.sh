@@ -24,7 +24,7 @@ sudo vnx -f openstack_lab.xml -x create-final-scenario
 # Xenial image with mongo
 cd $ABS_DIR
 source admin-openrc.sh
-openstack image create --public --disk-format qcow2 --container-format bare --file mongoVM.part mongoVM
+openstack image create --public --disk-format qcow2 --container-format bare --file mongoVM mongoVM
 
 # Arrancamos el escenario
 #source client-openrc.sh

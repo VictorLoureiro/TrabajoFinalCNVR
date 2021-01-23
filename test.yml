@@ -57,11 +57,6 @@ resources:
     properties:
       network: { get_resource: net1 }
       security_groups: [ { get_resource: open } ]
-  lb_port:
-    type: OS::Neutron::Port
-    properties:
-      network: { get_resource: net1 }
-      security_groups: [ { get_resource: open } ]
   admin_floating_ip:
     type: OS::Neutron::FloatingIP
     properties:
@@ -71,18 +66,12 @@ resources:
     type: OS::Neutron::FloatingIP
     properties:
       floating_network: ExtNet
-      port_id: { get_resource: lb_port }
-      #port_id: { get_attr: [lb, vip_port_id ]}
+      port_id: { get_attr: [lb, vip_port_id ]}
   admin_fi_asoc:
     type: OS::Neutron::FloatingIPAssociation
     properties:
       floatingip_id: { get_resource: admin_floating_ip }
       port_id: { get_resource: admin_port }
-  lb_fi_asoc:
-    type: OS::Neutron::FloatingIPAssociation
-    properties:
-      floatingip_id: { get_resource: lb_floating_ip }
-      port_id: { get_resource: lb_port }
   # Key pair creation
   my_key:
     type: OS::Nova::KeyPair
@@ -150,22 +139,22 @@ resources:
     properties:
       pool: { get_resource: pool }
       address: { get_attr: [ s1, first_address ]}
-      protocol_port: { get_param: app_port }
-      subnet: { get_param: subnet }
+      protocol_port: 8080
+      subnet: { get_resource: subnet1}
   pool_member2:
     type: OS::Neutron::LBaaS::PoolMember
     properties:
       pool: { get_resource: pool }
       address: { get_attr: [ s2, first_address ]}
-      protocol_port: { get_param: app_port }
-      subnet: { get_param: subnet }
+      protocol_port: 8080
+      subnet: { get_resource: subnet1}
   pool_member3:
     type: OS::Neutron::LBaaS::PoolMember
     properties:
       pool: { get_resource: pool }
       address: { get_attr: [ s3, first_address ]}
-      protocol_port: { get_param: app_port }
-      subnet: { get_param: subnet }
+      protocol_port: 8080
+      subnet: { get_resource: subnet1}
   pool:
     type: OS::Neutron::LBaaS::Pool
     properties:
@@ -175,9 +164,9 @@ resources:
   listener:
     type: OS::Neutron::LBaaS::Listener
     properties:
-      loadbalancer: { get_resource: loadbalancer }
+      loadbalancer: { get_resource: lb }
       protocol: HTTP
-      protocol_port: { get_param: lb_port }
+      protocol_port: 80
   # Admin Server definition
   admin:
     type: OS::Nova::Server
