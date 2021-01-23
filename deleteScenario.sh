@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source client-openrc.sh
 # Borramos el stack
 openstack stack delete stack_cnvr
 # Destruimos el escenario
