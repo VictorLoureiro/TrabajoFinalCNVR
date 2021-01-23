@@ -72,6 +72,7 @@ resources:
     properties:
       floating_network: ExtNet
       port_id: { get_resource: lb_port }
+      #port_id: { get_attr: [lb, vip_port_id ]}
   admin_fi_asoc:
     type: OS::Neutron::FloatingIPAssociation
     properties:
@@ -144,6 +145,39 @@ resources:
     properties:
      name: LB
      vip_subnet: {get_resource: subnet1}
+  pool_member1:
+    type: OS::Neutron::LBaaS::PoolMember
+    properties:
+      pool: { get_resource: pool }
+      address: { get_attr: [ s1, first_address ]}
+      protocol_port: { get_param: app_port }
+      subnet: { get_param: subnet }
+  pool_member2:
+    type: OS::Neutron::LBaaS::PoolMember
+    properties:
+      pool: { get_resource: pool }
+      address: { get_attr: [ s2, first_address ]}
+      protocol_port: { get_param: app_port }
+      subnet: { get_param: subnet }
+  pool_member3:
+    type: OS::Neutron::LBaaS::PoolMember
+    properties:
+      pool: { get_resource: pool }
+      address: { get_attr: [ s3, first_address ]}
+      protocol_port: { get_param: app_port }
+      subnet: { get_param: subnet }
+  pool:
+    type: OS::Neutron::LBaaS::Pool
+    properties:
+      lb_algorithm: ROUND_ROBIN
+      protocol: HTTP
+      listener: { get_resource: listener }
+  listener:
+    type: OS::Neutron::LBaaS::Listener
+    properties:
+      loadbalancer: { get_resource: loadbalancer }
+      protocol: HTTP
+      protocol_port: { get_param: lb_port }
   # Admin Server definition
   admin:
     type: OS::Nova::Server
