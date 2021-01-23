@@ -29,3 +29,10 @@ openstack image create --public --disk-format qcow2 --container-format bare --fi
 # Arrancamos el escenario
 #source client-openrc.sh
 #openstack stack create -t configure_scenario.yml stack1
+
+# Configuramos el firewall
+#FIP_ADMIN = openstack floating ip list -c 'Floating IP Address' | awk 'NR > 3 && NR < 5 {print $2}'
+#FIP_LB = openstack floating ip list -c 'Floating IP Address' | awk 'NR > 4 && NR < 6 {print $2}'
+
+
+
