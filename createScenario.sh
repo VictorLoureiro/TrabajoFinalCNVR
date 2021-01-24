@@ -31,8 +31,8 @@ openstack image create --public --disk-format qcow2 --container-format bare --fi
 #openstack stack create -t configure_scenario.yml stack1
 
 # Configuramos el firewall
-#FIP_ADMIN = openstack floating ip list -c 'Floating IP Address' | awk 'NR > 3 && NR < 5 {print $2}'
-#FIP_LB = openstack floating ip list -c 'Floating IP Address' | awk 'NR > 4 && NR < 6 {print $2}'
+#IP_ADMIN=`openstack server show admin -c addresses -f value | grep -o 10.1.1.* | awk '{print $1}' | cut -d \, -f 1`
+#IP_LB=`openstack floating ip list -c 'Floating IP Address' | awk 'NR > 4 && NR < 6 {print $2}'`
 
 
 
