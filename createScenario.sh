@@ -32,7 +32,7 @@ openstack image create --public --disk-format qcow2 --container-format bare --fi
 
 # Configuramos el firewall
 #IP_ADMIN=`openstack server show admin -c addresses -f value | grep -o 10.1.1.* | awk '{print $1}' | cut -d \, -f 1`
-#IP_LB=`openstack floating ip list -c 'Floating IP Address' | awk 'NR > 4 && NR < 6 {print $2}'`
+#IP_LB=`openstack port list --network net1 | awk '/load/ {print $8}' | grep -o 10.1.1.* | cut -d \' -f 1`
 
 
 
