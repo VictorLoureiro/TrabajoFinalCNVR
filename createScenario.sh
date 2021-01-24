@@ -33,6 +33,12 @@ openstack image create --public --disk-format qcow2 --container-format bare --fi
 # Configuramos el firewall
 #IP_ADMIN=`openstack server show admin -c addresses -f value | grep -o 10.1.1.* | awk '{print $1}' | cut -d \, -f 1`
 #IP_LB=`openstack port list --network net1 | awk '/load/ {print $8}' | grep -o 10.1.1.* | cut -d \' -f 1`
+# SSH rule
+#openstack firewall group rule create --protocol 'tcp' --source-ip-address 10.0.10.0/24 --destination-ip-address $IP_ADMIN --destination-port 22 --action 'allow'
+# WWW rule
+#openstack firewall group rule create --protocol 'tcp' --source-ip-address 10.0.10.0/24 --destination-ip-address $IP_LB --destination-port 80 --action 'allow'
+# Other rule
+#openstack firewall group rule create --protocol 'any' --source-ip-address 10.1.1.0/24 --action 'allow'
 
 
 
