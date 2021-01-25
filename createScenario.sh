@@ -27,18 +27,23 @@ source admin-openrc.sh
 openstack image create --public --disk-format qcow2 --container-format bare --file mongoVM mongoVM
 
 # Arrancamos el escenario
-#source client-openrc.sh
-#openstack stack create -t configure_scenario.yml stack1
+source client-openrc.sh
+openstack stack create -t configure_scenario.yml stack1
+
+
+echo "Waiting for openstack scenario to launch...."
+read -p "When done, press INTRO for configure the firewall rules and policies"
 
 # Configuramos el firewall
-#IP_ADMIN=`openstack server show admin -c addresses -f value | grep -o 10.1.1.* | awk '{print $1}' | cut -d \, -f 1`
-#IP_LB=`openstack port list --network net1 | awk '/load/ {print $8}' | grep -o 10.1.1.* | cut -d \' -f 1`
+source client-openrc.sh
+IP_ADMIN=`openstack server show admin -c addresses -f value | grep -o 10.1.1.* | awk '{print $1}' | cut -d \, -f 1`
+IP_LB=`openstack port list --network net1 | awk '/load/ {print $8}' | grep -o 10.1.1.* | cut -d \' -f 1`
 # SSH rule
-#openstack firewall group rule create --protocol 'tcp' --source-ip-address 10.0.10.0/24 --destination-ip-address $IP_ADMIN --destination-port 22 --action 'allow'
+openstack firewall group rule create --protocol 'tcp' --source-ip-address 10.0.10.0/24 --destination-ip-address $IP_ADMIN --destination-port 22 --action 'allow'
 # WWW rule
-#openstack firewall group rule create --protocol 'tcp' --source-ip-address 10.0.10.0/24 --destination-ip-address $IP_LB --destination-port 80 --action 'allow'
+openstack firewall group rule create --protocol 'tcp' --source-ip-address 10.0.10.0/24 --destination-ip-address $IP_LB --destination-port 80 --action 'allow'
 # Other rule
-#openstack firewall group rule create --protocol 'any' --source-ip-address 10.1.1.0/24 --action 'allow'
+openstack firewall group rule create --protocol 'any' --source-ip-address 10.1.1.0/24 --action 'allow'
 
 
 
