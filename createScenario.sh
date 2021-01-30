@@ -45,5 +45,9 @@ openstack firewall group rule create --protocol 'tcp' --source-ip-address 10.0.1
 # Other rule
 openstack firewall group rule create --protocol 'any' --source-ip-address 10.1.1.0/24 --action 'allow'
 
+#Clone our repo
+#git clone https://AlexVaPe:31f025a736d90997ac9beb5f51efa2903f702bd4@github.com/VictorLoureiro/TrabajoFinalCNVR
+
+
 
 
