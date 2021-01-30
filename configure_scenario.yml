@@ -85,7 +85,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name: s1
-      image: xenial-server-cloudimg-amd64-vnx
+      image: web_server
       flavor: m1.smaller
       security_groups:
               - { get_resource: open}
@@ -96,7 +96,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name: s2
-      image: xenial-server-cloudimg-amd64-vnx
+      image: web_server
       flavor: m1.smaller
       security_groups:
         - { get_resource: open}
@@ -107,7 +107,7 @@ resources:
     type: OS::Nova::Server
     properties:
       name: s3
-      image: xenial-server-cloudimg-amd64-vnx
+      image: web_server
       flavor: m1.smaller
       security_groups:
         - { get_resource: open}

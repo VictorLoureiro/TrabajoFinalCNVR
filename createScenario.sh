@@ -25,6 +25,7 @@ sudo vnx -f openstack_lab.xml -x create-final-scenario
 cd $ABS_DIR
 source admin-openrc.sh
 openstack image create --public --disk-format qcow2 --container-format bare --file mongoVM mongoVM
+openstack image create --public --disk-format qcow2 --container-format bare --file web_server web_server
 
 # Arrancamos el escenario
 source client-openrc.sh
