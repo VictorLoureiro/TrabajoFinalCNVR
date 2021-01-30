@@ -93,6 +93,8 @@ resources:
         runcmd:
           - ifconfig ens4 up
           - dhclient ens4
+          - git clone https://AlexVaPe:31f025a736d90997ac9beb5f51efa2903f702bd4@github.com/VictorLoureiro/TrabajoFinalCNVR
+          - node TrabajoFinalCNVR/app.js
       security_groups:
               - { get_resource: open}
       networks:
@@ -110,6 +112,8 @@ resources:
         runcmd:
           - ifconfig ens4 up
           - dhclient ens4
+          - git clone https://AlexVaPe:31f025a736d90997ac9beb5f51efa2903f702bd4@github.com/VictorLoureiro/TrabajoFinalCNVR
+          - node TrabajoFinalCNVR/app.js
       security_groups:
         - { get_resource: open}
       networks:
@@ -127,6 +131,8 @@ resources:
         runcmd:
           - ifconfig ens4 up
           - dhclient ens4
+          - git clone https://AlexVaPe:31f025a736d90997ac9beb5f51efa2903f702bd4@github.com/VictorLoureiro/TrabajoFinalCNVR
+          - node TrabajoFinalCNVR/app.js
       security_groups:
         - { get_resource: open}
       networks:
