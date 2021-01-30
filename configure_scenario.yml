@@ -159,21 +159,21 @@ resources:
     properties:
       pool: { get_resource: pool }
       address: { get_attr: [ s1, first_address ]}
-      protocol_port: 8080
+      protocol_port: 80
       subnet: { get_resource: subnet1}
   pool_member2:
     type: OS::Neutron::LBaaS::PoolMember
     properties:
       pool: { get_resource: pool }
       address: { get_attr: [ s2, first_address ]}
-      protocol_port: 8080
+      protocol_port: 80
       subnet: { get_resource: subnet1}
   pool_member3:
     type: OS::Neutron::LBaaS::PoolMember
     properties:
       pool: { get_resource: pool }
       address: { get_attr: [ s3, first_address ]}
-      protocol_port: 8080
+      protocol_port: 80
       subnet: { get_resource: subnet1}
   pool:
     type: OS::Neutron::LBaaS::Pool
