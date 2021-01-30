@@ -29,6 +29,7 @@ resources:
      allocation_pools: [{"start": 10.1.1.2, "end": 10.1.1.20}]
      gateway_ip: 10.1.1.1
      cidr: 10.1.1.0/24
+     dns_nameservers: ['8.8.8.8','8.8.4.4']
   net2:
     type: OS::Neutron::Net
     properties:
@@ -41,6 +42,7 @@ resources:
      allocation_pools: [{"start": 10.1.2.2, "end": 10.1.2.20}]
      gateway_ip: 10.1.2.1
      cidr: 10.1.2.0/24
+     dns_nameservers: ['8.8.8.8','8.8.4.4']
   router:
     type: OS::Neutron::Router
     properties:
@@ -128,7 +130,6 @@ resources:
         - { get_resource: open}
       networks:
        - network: {get_resource: net2}
-
   # Load Balancer definition
   lb:
     type: OS::Neutron::LBaaS::LoadBalancer
@@ -168,39 +169,6 @@ resources:
       loadbalancer: { get_resource: lb }
       protocol: HTTP
       protocol_port: 80
-  # Firewall definition
-  fw:
-    type: OS::Neutron::Firewall
-    properties:
-      firewall_policy_id: {get_resource: fw_policies}
-  fw_policies:
-    type: OS::Neutron::FirewallPolicy
-    properties:
-      audited: Boolean
-      description: String
-      firewall_rules: [{get_resource: fw_rule_ssh}, {get_resource: fw_rule_www}, {get_resource: fw_rule_int}]
-  fw_rule_ssh:
-    type: OS::Neutron::FirewallRule
-    properties:
-      action: allow
-      description: ssh Rule
-      destination_ip_address: { get_attr: [ admin, first_address ]}
-      destination_port: 22
-      source_ip_address: 10.0.10.0/24
-  fw_rule_www:
-    type: OS::Neutron::FirewallRule
-    properties:
-      action: allow
-      description: www rule
-      destination_ip_address: { get_attr: [ lb, first_address ]}
-      destination_port: 80
-      source_ip_address: 10.0.10.0/24
-  fw_rule_int:
-    type: OS::Neutron::FirewallRule
-    properties:
-      action: allow
-      description: interior rule
-      source_ip_address: 10.1.1.0/24
   # Admin Server definition
   admin:
     type: OS::Nova::Server
