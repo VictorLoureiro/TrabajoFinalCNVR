@@ -87,6 +87,12 @@ resources:
       name: s1
       image: web_server
       flavor: m1.smaller
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        runcmd:
+          - ifconfig ens4 up
+          - dhclient ens4
       security_groups:
               - { get_resource: open}
       networks:
@@ -98,6 +104,12 @@ resources:
       name: s2
       image: web_server
       flavor: m1.smaller
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        runcmd:
+          - ifconfig ens4 up
+          - dhclient ens4
       security_groups:
         - { get_resource: open}
       networks:
@@ -109,6 +121,12 @@ resources:
       name: s3
       image: web_server
       flavor: m1.smaller
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        runcmd:
+          - ifconfig ens4 up
+          - dhclient ens4
       security_groups:
         - { get_resource: open}
       networks:
