@@ -1,3 +1,4 @@
+
 heat_template_version: 2018-08-31
 
 description: Template to deploy all virtual machines of the final scenario
@@ -94,7 +95,7 @@ resources:
           - ifconfig ens4 up
           - dhclient ens4
           - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
-          - node TrabajoFinalCNVR/app.js $IP $HOSTNAME
+          - node app.js $IP $HOSTNAME
       security_groups:
               - { get_resource: open}
       networks:
@@ -113,7 +114,7 @@ resources:
           - ifconfig ens4 up
           - dhclient ens4
           - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
-          - node TrabajoFinalCNVR/app.js $IP $HOSTNAME
+          - node app.js $IP $HOSTNAME
       security_groups:
         - { get_resource: open}
       networks:
@@ -132,7 +133,7 @@ resources:
           - ifconfig ens4 up
           - dhclient ens4
           - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
-          - node TrabajoFinalCNVR/app.js $IP $HOSTNAME
+          - node app.js $IP $HOSTNAME
       security_groups:
         - { get_resource: open}
       networks:
