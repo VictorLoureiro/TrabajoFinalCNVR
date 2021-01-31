@@ -1,3 +1,4 @@
+
 heat_template_version: 2018-08-31
 
 description: Template to deploy all virtual machines of the final scenario
@@ -85,8 +86,16 @@ resources:
     type: OS::Nova::Server
     properties:
       name: s1
-      image: xenial-server-cloudimg-amd64-vnx
+      image: web_server
       flavor: m1.smaller
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        runcmd:
+          - ifconfig ens4 up
+          - dhclient ens4
+          - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
+          - node /etc/app.js $IP $HOSTNAME
       security_groups:
               - { get_resource: open}
       networks:
@@ -96,8 +105,16 @@ resources:
     type: OS::Nova::Server
     properties:
       name: s2
-      image: xenial-server-cloudimg-amd64-vnx
+      image: web_server
       flavor: m1.smaller
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        runcmd:
+          - ifconfig ens4 up
+          - dhclient ens4
+          - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
+          - node /etc/app.js $IP $HOSTNAME
       security_groups:
         - { get_resource: open}
       networks:
@@ -107,8 +124,16 @@ resources:
     type: OS::Nova::Server
     properties:
       name: s3
-      image: xenial-server-cloudimg-amd64-vnx
+      image: web_server
       flavor: m1.smaller
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        runcmd:
+          - ifconfig ens4 up
+          - dhclient ens4
+          - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
+          - node /etc/app.js $IP $HOSTNAME
       security_groups:
         - { get_resource: open}
       networks:
@@ -140,22 +165,22 @@ resources:
     type: OS::Neutron::LBaaS::PoolMember
     properties:
       pool: { get_resource: pool }
-      address: { get_attr: [ s1, first_address ]}
-      protocol_port: 8080
+      address: { get_attr: [ s1, networks, net1, 0]}
+      protocol_port: 80
       subnet: { get_resource: subnet1}
   pool_member2:
     type: OS::Neutron::LBaaS::PoolMember
     properties:
       pool: { get_resource: pool }
-      address: { get_attr: [ s2, first_address ]}
-      protocol_port: 8080
+      address: { get_attr: [ s2, networks, net1, 0]}
+      protocol_port: 80
       subnet: { get_resource: subnet1}
   pool_member3:
     type: OS::Neutron::LBaaS::PoolMember
     properties:
       pool: { get_resource: pool }
-      address: { get_attr: [ s3, first_address ]}
-      protocol_port: 8080
+      address: { get_attr: [ s3, networks, net1, 0]}
+      protocol_port: 80
       subnet: { get_resource: subnet1}
   pool:
     type: OS::Neutron::LBaaS::Pool
@@ -163,6 +188,7 @@ resources:
       lb_algorithm: ROUND_ROBIN
       protocol: HTTP
       listener: { get_resource: listener }
+      name: http_pool
   listener:
     type: OS::Neutron::LBaaS::Listener
     properties:
