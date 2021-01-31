@@ -94,8 +94,7 @@ resources:
           - ifconfig ens4 up
           - dhclient ens4
           - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
-          - git clone https://AlexVaPe:31f025a736d90997ac9beb5f51efa2903f702bd4@github.com/VictorLoureiro/TrabajoFinalCNVR
-          - node /TrabajoFinalCNVR/app.js $IP $USERNAME
+          - node TrabajoFinalCNVR/app.js $IP $USERNAME
       security_groups:
               - { get_resource: open}
       networks:
@@ -114,8 +113,7 @@ resources:
           - ifconfig ens4 up
           - dhclient ens4
           - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
-          - git clone https://AlexVaPe:31f025a736d90997ac9beb5f51efa2903f702bd4@github.com/VictorLoureiro/TrabajoFinalCNVR
-          - node /TrabajoFinalCNVR/app.js $IP $USERNAME
+          - node TrabajoFinalCNVR/app.js $IP $USERNAME
       security_groups:
         - { get_resource: open}
       networks:
@@ -134,8 +132,7 @@ resources:
           - ifconfig ens4 up
           - dhclient ens4
           - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
-          - git clone https://AlexVaPe:31f025a736d90997ac9beb5f51efa2903f702bd4@github.com/VictorLoureiro/TrabajoFinalCNVR
-          - node /TrabajoFinalCNVR/app.js $IP $USERNAME
+          - node TrabajoFinalCNVR/app.js $IP $USERNAME
       security_groups:
         - { get_resource: open}
       networks:
