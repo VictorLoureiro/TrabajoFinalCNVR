@@ -9,7 +9,7 @@ const str1 = 'Hola! Estas en el Servidor ';
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
-  res.end(str1.concat('',hostNAME);
+  res.end(str1.concat('',hostNAME));
 });
 
 server.listen(port, hostIP, () => {
