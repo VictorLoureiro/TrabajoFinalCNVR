@@ -49,6 +49,13 @@ openstack firewall group rule create --protocol 'any' --source-ip-address 10.1.1
 #Clone our repo
 #git clone https://AlexVaPe:31f025a736d90997ac9beb5f51efa2903f702bd4@github.com/VictorLoureiro/TrabajoFinalCNVR
 
+echo "Firewall configured"
+read -p "Press INTRO for configure the web app on the servers"
 
+# Configuration of the app
+#source client-openrc.sh
+#IP_S1=`neutron lbaas-member-list http_pool`
+#POOL_NAME=`neutron lbaas-pool-list -c 'name' -f 'value'`
+#POOL_NAME=`neutron lbaas-pool-list -c 'name' -f 'value'`
 
 

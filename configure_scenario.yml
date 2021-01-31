@@ -93,8 +93,8 @@ resources:
         runcmd:
           - ifconfig ens4 up
           - dhclient ens4
-          - git clone https://AlexVaPe:31f025a736d90997ac9beb5f51efa2903f702bd4@github.com/VictorLoureiro/TrabajoFinalCNVR
-          - node TrabajoFinalCNVR/app.js
+          - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
+          - node app.js $IP
       security_groups:
               - { get_resource: open}
       networks:
@@ -112,8 +112,8 @@ resources:
         runcmd:
           - ifconfig ens4 up
           - dhclient ens4
-          - git clone https://AlexVaPe:31f025a736d90997ac9beb5f51efa2903f702bd4@github.com/VictorLoureiro/TrabajoFinalCNVR
-          - node TrabajoFinalCNVR/app.js
+          - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
+          - node app.js $IP
       security_groups:
         - { get_resource: open}
       networks:
@@ -131,8 +131,8 @@ resources:
         runcmd:
           - ifconfig ens4 up
           - dhclient ens4
-          - git clone https://AlexVaPe:31f025a736d90997ac9beb5f51efa2903f702bd4@github.com/VictorLoureiro/TrabajoFinalCNVR
-          - node TrabajoFinalCNVR/app.js
+          - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
+          - node app.js $IP
       security_groups:
         - { get_resource: open}
       networks:
@@ -164,21 +164,21 @@ resources:
     type: OS::Neutron::LBaaS::PoolMember
     properties:
       pool: { get_resource: pool }
-      address: { get_attr: [ s1, first_address ]}
+      address: { get_attr: [ s1, networks, net1, 0]}
       protocol_port: 80
       subnet: { get_resource: subnet1}
   pool_member2:
     type: OS::Neutron::LBaaS::PoolMember
     properties:
       pool: { get_resource: pool }
-      address: { get_attr: [ s2, first_address ]}
+      address: { get_attr: [ s2, networks, net1, 0]}
       protocol_port: 80
       subnet: { get_resource: subnet1}
   pool_member3:
     type: OS::Neutron::LBaaS::PoolMember
     properties:
       pool: { get_resource: pool }
-      address: { get_attr: [ s3, first_address ]}
+      address: { get_attr: [ s3, networks, net1, 0]}
       protocol_port: 80
       subnet: { get_resource: subnet1}
   pool:
@@ -187,6 +187,7 @@ resources:
       lb_algorithm: ROUND_ROBIN
       protocol: HTTP
       listener: { get_resource: listener }
+      name: http_pool
   listener:
     type: OS::Neutron::LBaaS::Listener
     properties:
