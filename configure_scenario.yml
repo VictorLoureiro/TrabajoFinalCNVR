@@ -94,7 +94,6 @@ resources:
         runcmd:
           - ifconfig ens4 up
           - dhclient ens4
-          - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
       security_groups:
               - { get_resource: open}
       networks:
@@ -112,7 +111,6 @@ resources:
         runcmd:
           - ifconfig ens4 up
           - dhclient ens4
-          - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
       security_groups:
         - { get_resource: open}
       networks:
@@ -130,7 +128,6 @@ resources:
         runcmd:
           - ifconfig ens4 up
           - dhclient ens4
-          - IP=`ifconfig | grep 10.1.1 | awk '{print $2}' | cut -d \: -f 2`
       security_groups:
         - { get_resource: open}
       networks:
